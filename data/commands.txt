@@ -1,0 +1,9 @@
+# ECE-038 commands — process in file order
+LOAD_CUSTOMERS|customers.csv
+LOAD_DEVICES|devices.csv
+LOAD_READINGS|meter_readings.csv
+LOAD_TICKETS|service_tickets.csv
+BILL_MONTH|2026-08
+BILL_MONTH|2026-09
+BILL_MONTH|2026-10
+PRINT_UTILISATION|2026-10

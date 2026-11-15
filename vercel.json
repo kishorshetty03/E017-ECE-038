@@ -1,4 +1,4 @@
 {
-  "builds": [{ "src": "app.py", "use": "@vercel/python", "config": { "includeFiles": ["static/**", "engine.py", "sample.py"] } }],
+  "builds": [{ "src": "app.py", "use": "@vercel/python", "config": { "includeFiles": ["static/**", "data/**", "engine.py", "sample.py"] } }],
   "routes": [{ "src": "/(.*)", "dest": "app.py" }]
 }

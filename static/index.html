@@ -64,7 +64,7 @@ th{text-align:left;color:var(--mute);font-weight:500;padding:6px;border-bottom:2
 <script>
 const $=s=>document.querySelector(s),inr=n=>'₹'+Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}),inr0=n=>'₹'+Number(n).toLocaleString('en-IN');
 const api=async(p,o)=>{const r=await fetch('/api/'+p,o),j=await r.json();if(!r.ok)throw new Error(j.error);return j};
-const CC={Black:'#1b1b1b',Cyan:'#00aeef',Magenta:'#ec008c',Yellow:'#ffd400'};let tab='inv';
+const CC={BLACK:'#1b1b1b',CYAN:'#00aeef',MAGENTA:'#ec008c',YELLOW:'#ffd400'};let tab='inv';
 const show=e=>{const x=$('#err');x.textContent=e?e.message:'';x.style.display=e?'block':'none'};
 function count(el,to){const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/900);el.textContent=inr0(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)})(t0)}
 async function boot(){try{show();const s=await api('state');$('#month').innerHTML=s.months.map(m=>`<option>${m}</option>`).reverse().join('');
@@ -77,7 +77,7 @@ async function render(){try{show();const m=$('#month').value,[i,t,u]=await Promi
  const tabs='<nav>'+[['inv','Invoices'],['ton','Toner shipments'],['utl','Utilisation']].map(([k,n])=>`<button class="${tab==k?'on':''}" data-t="${k}">${n}</button>`).join('')+'</nav>';
  let b='';
  if(tab=='inv')b='<div class="grid">'+I.map(inv).join('')+'</div>';
- if(tab=='ton')b=t.shipments.length?'<div class="grid">'+t.shipments.map(s=>`<div class="card cart"><div class="drop" style="background:${CC[s.cartridge]};color:${s.cartridge=='Yellow'?'#1b1b1b':'#fff'}">${s.level}%</div><div><b>${s.cartridge}</b> <span class="chip ${s.urgent?'':'w'}">${s.urgent?'URGENT':'SHIP'}</span><br><span class="mute">${s.device_id} · ${s.model}<br>Customer ${s.customer_id}</span></div></div>`).join('')+'</div>':'<div class="empty"><h3>No toner to ship</h3><p class="mute">Every cartridge is above 15%.</p></div>';
+ if(tab=='ton')b=t.shipments.length?'<div class="grid">'+[...t.shipments].sort((a,b)=>b.urgent-a.urgent).map(s=>`<div class="card cart"><div class="drop" style="background:${CC[s.cartridge]};color:${s.cartridge=='YELLOW'?'#1b1b1b':'#fff'}">${s.level}%</div><div><b>${s.cartridge[0]+s.cartridge.slice(1).toLowerCase()}</b> <span class="chip ${s.urgent?'':'w'}">${s.urgent?'URGENT':'SHIP'}</span><br><span class="mute">${s.device_id} · ${s.model}<br>Customer ${s.customer_id}</span></div></div>`).join('')+'</div>':'<div class="empty"><h3>No toner to ship</h3><p class="mute">Every cartridge is above 15%.</p></div>';
  if(tab=='utl')b='<div class="grid">'+u.devices.map(d=>{const p=d.pct,c=d.rightsize?'var(--ma)':p>100?'#ff8a00':'var(--cy)';return `<div class="card"><div class="row"><div><b>${d.device_id}</b><br><small>${d.model}</small></div><div class="tot">${p==null?'n/a':p+'%'}</div></div><div class="meter"><i style="width:${Math.min(p||0,100)}%;background:${c}"></i></div><small>${d.used} of ${d.included} included pages${d.rightsize?' · under 30%, consider a smaller plan':''}</small></div>`}).join('')+'</div>';
  $('#app').innerHTML=kp+tabs+b;document.querySelectorAll('nav button').forEach(x=>x.onclick=()=>{tab=x.dataset.t;render()})}catch(e){show(e)}}
 const inv=i=>{const T=i.rental+i.overage+i.gst||1,w=v=>(v*100/T).toFixed(1)+'%';return `<div class="card"><div class="row"><div><h3>${i.name}</h3><small>${i.customer_id}</small></div><div class="tot">${inr0(i.total)}</div></div>
