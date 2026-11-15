@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PrintBill Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16132e;--bg:#f4f6ff;--cy:#00aeef;--ma:#ec008c;--ye:#ffd400;--k:#1b1b1b;--mute:#6a678c}
+*{box-sizing:border-box}body{margin:0;font-family:"DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+h1,h2,h3,.big{font-family:Sora,"DM Sans",sans-serif}
+.hero{background:var(--ink);color:#fff;position:relative;overflow:hidden;padding:34px 22px 90px}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 20%,#ec008c55,transparent 40%),radial-gradient(circle at 85% 10%,#00aeef66,transparent 38%),radial-gradient(circle at 70% 100%,#ffd40044,transparent 40%)}
+.cmyk{position:absolute;left:0;right:0;bottom:0;height:10px;display:flex}.cmyk i{flex:1}.cmyk i:nth-child(1){background:var(--cy)}.cmyk i:nth-child(2){background:var(--ma)}.cmyk i:nth-child(3){background:var(--ye)}.cmyk i:nth-child(4){background:#000}
+.wrap{max-width:1120px;margin:0 auto;position:relative}
+.top{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
+.brand{display:flex;gap:8px;align-items:center;font-weight:700;margin-bottom:18px}.dot{width:14px;height:14px;border-radius:50%}
+h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.05;margin:0 0 12px;letter-spacing:-1.5px}
+.hero p{max-width:460px;color:#cfcdf2;margin:0 0 20px}
+.bar{display:flex;flex-wrap:wrap;gap:10px}
+select,button,label.up{font:inherit;font-weight:700;border:0;border-radius:12px;padding:11px 16px;cursor:pointer}
+select{background:#fff;color:var(--ink)}#sample{background:var(--ye);color:var(--k)}
+label.up{background:#ffffff1f;color:#fff;border:1px solid #ffffff40}label.up input{display:none}
+button:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--ye);outline-offset:2px}
+.printer{position:relative;height:290px;max-width:380px;margin-left:auto;width:100%}
+.body{position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(#3a3566,#262247);border-radius:22px;box-shadow:0 20px 40px #0006;z-index:2}
+.body:before{content:"";position:absolute;left:24px;right:24px;top:34px;height:10px;background:#0009;border-radius:6px}
+.body:after{content:"";position:absolute;right:26px;top:12px;width:12px;height:12px;border-radius:50%;background:var(--ye);box-shadow:-22px 0 var(--ma),-44px 0 var(--cy)}
+.slip{position:absolute;left:44px;right:44px;bottom:110px;height:170px;background:#fff;color:var(--ink);border-radius:8px 8px 0 0;padding:16px 16px;z-index:1;background-image:repeating-linear-gradient(#0000 0 22px,#0000000a 22px 23px);animation:feed 1.1s cubic-bezier(.2,.8,.2,1) both}
+.slip small{color:var(--mute)}.slip .big{font-size:1.9rem;font-weight:800;color:var(--ma);line-height:1.1}
+@keyframes feed{from{transform:translateY(120px)}to{transform:none}}
+main{max-width:1120px;margin:-56px auto 50px;padding:0 14px;position:relative}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.k{background:#fff;border-radius:18px;padding:16px 16px 14px;box-shadow:0 10px 30px #16132e14;border-bottom:5px solid var(--c)}
+.k b{display:block;font:800 1.5rem Sora,sans-serif}.k span{color:var(--mute);font-size:.85rem}
+nav{display:flex;gap:8px;margin:26px 0 16px;flex-wrap:wrap}
+nav button{background:#fff;color:var(--ink);box-shadow:0 2px 8px #16132e12}nav button.on{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
+.card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 10px 30px #16132e12}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.row h3{margin:0 0 2px}
+.tot{font:800 1.7rem Sora,sans-serif}small,.mute{color:var(--mute)}
+.stack{display:flex;height:14px;border-radius:9px;overflow:hidden;margin:14px 0 6px;background:#eee}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem}.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.pool{margin-top:12px;padding:11px 13px;border-radius:12px;background:#f0f9ff;border-left:5px solid var(--cy);font-size:.88rem}
+.pool b{color:var(--ma)}
+details{margin-top:12px}summary{cursor:pointer;font-weight:700}
+.tbl{overflow-x:auto;margin-top:8px}table{border-collapse:collapse;width:100%;font-size:.84rem}
+th{text-align:left;color:var(--mute);font-weight:500;padding:6px;border-bottom:2px solid #eee}td{padding:7px 6px;border-bottom:1px solid #f0f0f5;vertical-align:top}
+.chip{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.72rem;font-weight:700;color:#fff;background:var(--ma);margin-left:6px}.chip.w{background:#ff8a00}
+.meter{height:14px;background:#edeaff;border-radius:9px;overflow:hidden;margin:12px 0 6px}.meter i{display:block;height:100%;border-radius:9px;transition:width .8s}
+.cart{display:flex;gap:14px;align-items:center}.drop{width:46px;height:46px;border-radius:14px;flex:none;display:grid;place-items:center;font:800 .95rem Sora,sans-serif}
+.empty{text-align:center;padding:56px 20px;background:#fff;border-radius:20px}
+.err{background:#ffe3ee;color:#8f1148;padding:11px 14px;border-radius:12px;margin-bottom:12px;display:none}
+@media(max-width:800px){.top{grid-template-columns:1fr}.printer{margin:0 auto;height:250px}}
+@media(prefers-reduced-motion:reduce){.slip{animation:none}.meter i{transition:none}}
+</style></head><body>
+<section class="hero"><div class="wrap top"><div>
+<div class="brand"><span class="dot" style="background:var(--cy)"></span><span class="dot" style="background:var(--ma)"></span><span class="dot" style="background:var(--ye)"></span>&nbsp;PrintBill Studio</div>
+<h1>Every page counted. Every invoice exact.</h1>
+<p>Pool included pages across a customer's printers, bill only the true overage, and ship toner before it runs dry.</p>
+<div class="bar"><select id="month" aria-label="Billing month"></select><button id="sample">Load sample data</button>
+<label class="up">Readings CSV<input type="file" accept=".csv" data-ep="readings"></label>
+<label class="up">Tickets CSV<input type="file" accept=".csv" data-ep="tickets"></label>
+<label class="up">Devices CSV<input type="file" accept=".csv" data-ep="devices"></label></div></div>
+<div class="printer"><div class="slip" id="slip"><small>Total billed this month</small><div class="big" id="slipTot">₹0</div><small id="slipSub">Load data to print</small></div><div class="body"></div></div></div>
+<div class="cmyk"><i></i><i></i><i></i><i></i></div></section>
+<main><div class="err" id="err" role="alert"></div><div id="app"></div></main>
+<script>
+const $=s=>document.querySelector(s),inr=n=>'₹'+Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}),inr0=n=>'₹'+Number(n).toLocaleString('en-IN');
+const api=async(p,o)=>{const r=await fetch('/api/'+p,o),j=await r.json();if(!r.ok)throw new Error(j.error);return j};
+const CC={Black:'#1b1b1b',Cyan:'#00aeef',Magenta:'#ec008c',Yellow:'#ffd400'};let tab='inv';
+const show=e=>{const x=$('#err');x.textContent=e?e.message:'';x.style.display=e?'block':'none'};
+function count(el,to){const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/900);el.textContent=inr0(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)})(t0)}
+async function boot(){try{show();const s=await api('state');$('#month').innerHTML=s.months.map(m=>`<option>${m}</option>`).reverse().join('');
+ $('#month').value=s.months[s.months.length-1];render()}catch(e){show(e)}}
+async function render(){try{show();const m=$('#month').value,[i,t,u]=await Promise.all([api('invoices?month='+m),api('toner?month='+m),api('utilisation?month='+m)]);
+ const I=i.invoices,sum=k=>I.reduce((a,x)=>a+x[k],0),urg=t.shipments.filter(x=>x.urgent).length,me=I.flatMap(x=>x.lines).filter(l=>l.flag=='METER_ERROR').length;
+ count($('#slipTot'),sum('total'));$('#slipSub').textContent=I.length+' invoices · '+m;
+ const K=[['Pooled overage',inr(sum('overage')),'var(--ma)'],['Downtime credits',inr(sum('credits')),'var(--cy)'],['Toner to ship',t.shipments.length+' ('+urg+' urgent)','var(--ye)'],['Meter errors',me,'var(--k)']];
+ const kp='<div class="kpis">'+K.map(k=>`<div class="k" style="--c:${k[2]}"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('')+'</div>';
+ const tabs='<nav>'+[['inv','Invoices'],['ton','Toner shipments'],['utl','Utilisation']].map(([k,n])=>`<button class="${tab==k?'on':''}" data-t="${k}">${n}</button>`).join('')+'</nav>';
+ let b='';
+ if(tab=='inv')b='<div class="grid">'+I.map(inv).join('')+'</div>';
+ if(tab=='ton')b=t.shipments.length?'<div class="grid">'+t.shipments.map(s=>`<div class="card cart"><div class="drop" style="background:${CC[s.cartridge]};color:${s.cartridge=='Yellow'?'#1b1b1b':'#fff'}">${s.level}%</div><div><b>${s.cartridge}</b> <span class="chip ${s.urgent?'':'w'}">${s.urgent?'URGENT':'SHIP'}</span><br><span class="mute">${s.device_id} · ${s.model}<br>Customer ${s.customer_id}</span></div></div>`).join('')+'</div>':'<div class="empty"><h3>No toner to ship</h3><p class="mute">Every cartridge is above 15%.</p></div>';
+ if(tab=='utl')b='<div class="grid">'+u.devices.map(d=>{const p=d.pct,c=d.rightsize?'var(--ma)':p>100?'#ff8a00':'var(--cy)';return `<div class="card"><div class="row"><div><b>${d.device_id}</b><br><small>${d.model}</small></div><div class="tot">${p==null?'n/a':p+'%'}</div></div><div class="meter"><i style="width:${Math.min(p||0,100)}%;background:${c}"></i></div><small>${d.used} of ${d.included} included pages${d.rightsize?' · under 30%, consider a smaller plan':''}</small></div>`}).join('')+'</div>';
+ $('#app').innerHTML=kp+tabs+b;document.querySelectorAll('nav button').forEach(x=>x.onclick=()=>{tab=x.dataset.t;render()})}catch(e){show(e)}}
+const inv=i=>{const T=i.rental+i.overage+i.gst||1,w=v=>(v*100/T).toFixed(1)+'%';return `<div class="card"><div class="row"><div><h3>${i.name}</h3><small>${i.customer_id}</small></div><div class="tot">${inr0(i.total)}</div></div>
+<div class="stack"><i style="width:${w(i.rental)};background:var(--cy)"></i><i style="width:${w(i.overage)};background:var(--ma)"></i><i style="width:${w(i.gst)};background:var(--ye)"></i></div>
+<div class="legend"><span><i style="background:var(--cy)"></i>Rental ${inr(i.rental)}</span><span><i style="background:var(--ma)"></i>Overage ${inr(i.overage)}</span><span><i style="background:var(--ye)"></i>GST ${inr(i.gst)}</span><span class="mute">Credits -${inr(i.credits)}</span></div>
+<div class="pool">Pooled mono <b>${i.use_mono}/${i.pool_mono}</b>, colour <b>${i.use_colour}/${i.pool_colour}</b>.<br>Per-device billing would charge ${inr(i.solo_overage)} overage. Pooling charges ${inr(i.overage)}.</div>
+<details><summary>${i.lines.length} devices</summary><div class="tbl"><table><tr><th>Device</th><th>Days</th><th>Mono</th><th>Colour</th><th>Credit</th></tr>${i.lines.map(l=>`<tr><td>${l.device_id}${l.flag?`<span class="chip">${l.flag}</span>`:''}<br><small>${l.model}</small></td><td>${l.days}</td><td>${l.mono}/${l.inc_mono}</td><td>${l.colour}/${l.inc_colour}</td><td>${l.credit?'-'+l.credit.toFixed(2):'-'}${l.ticket_hours?`<br><small>${l.ticket_hours}h open</small>`:''}</td></tr>`).join('')}</table></div></details></div>`};
+$('#month').onchange=render;
+$('#sample').onclick=async()=>{try{await api('sample',{method:'POST'});boot()}catch(e){show(e)}};
+document.querySelectorAll('input[type=file]').forEach(f=>f.onchange=async()=>{try{const d=new FormData();d.append('file',f.files[0]);await api(f.dataset.ep,{method:'POST',body:d});f.value='';boot()}catch(e){show(e)}});
+boot();
+</script></body></html>
